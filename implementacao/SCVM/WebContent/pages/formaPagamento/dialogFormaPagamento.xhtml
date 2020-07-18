@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<p:dialog id="formaPagamentoDialog"  
+			  appendTo="@(body)" header="#{mFormaPagamento.acaoFormaPagamento} Forma de Pagamento" widgetVar="formaPagamentoDialog" 
+			  modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+		  	<h:form id="formDialog">
+		        <p:outputPanel id="formaPagamentoDetailDiv" style="text-align:center;" styleClass="semBorda" >
+	            <p:growl id="msgs" showDetail="true"/>
+					<p:panel id="formaPagamentoDialogPanel" style="width: 100%;">
+			            <p:panelGrid columnClasses="label,value" styleClass="semBorda">
+							<p:row>
+						        <p:column style="font-weight: bold;">
+									<h:outputLabel value="Descrição: *" for="txtDesc"/>
+								</p:column>
+						        <p:column style="font-weight: bold;">
+						        	<p:inputText id="txtDesc" value="#{mFormaPagamento.descricaoFormaPagamento}" maxlength="200" />
+						        </p:column>
+							</p:row>
+					        <p:row >
+					        	<p:column  colspan="4"  style="font-weight: bold; text-align:right;">
+									<p:commandButton icon="fa fa-fw fa-filter"
+													 title="Salvar"
+													 actionListener="#{mFormaPagamento.executarAcaoFormaPagamento()}"
+													 value="Salvar"
+													 update=":@form:msgs :form" 
+													 oncomplete="PF('formaPagamentoDialog').hide()"
+													 ajax="true">
+									</p:commandButton>
+						        </p:column>
+					        </p:row>
+			            </p:panelGrid>							
+					</p:panel>
+				</p:outputPanel>
+			</h:form>
+	    </p:dialog>	
+</h:body>
+</h:html>

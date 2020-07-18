@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/pages/template/layout.xhtml">
+		<ui:define name="content">
+		<ui:include src="/pages/formaPagamento/dialogFormaPagamento.xhtml" />
+			<h:form id="form">
+				<ui:include src="/pages/template/dialog.xhtml" />
+				<p:growl id="msgs" showDetail="true"/>
+				
+				<!-- FIELDSET CONTEUDO -->
+				<p:panel header="Manter Forma de Pagamento">
+				
+					<f:facet name="actions">
+				    	<p:commandButton onsuccess="PF('formaPagamentoDialog').show();" style="float: right; margin-left: 6px; color: white;"
+													 update=":formDialog:formaPagamentoDetailDiv"  icon="fa fa-fw fa-user-plus"
+													 immediate="true"
+													 value="Novo"
+													 label="Nova Forma de Pagamento">
+							<f:setPropertyActionListener target="#{mFormaPagamento.acaoFormaPagamento}" value="#{ConstantesSistema.ACAO_INSERIR}"/>
+						</p:commandButton>
+				   		<p:commandButton style="float: right; color: white;" value="Voltar" immediate="true"
+				   						 action="/pages/principal.jsf?faces-redirect=true" icon="fa fa-fw fa-arrow-circle-left"/>
+				    </f:facet>	
+
+					<!-- FIELDSET CONTEUDO -->
+					<p:fieldset legend="Pesquisar Forma de Pagamento" toggleable="true" toggleSpeed="500">
+						<p:outputPanel class="ui-g">
+		            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+			            		<p:outputPanel class="ui-g-1 ui-md-3 ui-lg-1" style="text-align:right" >
+	            					<h:outputLabel value="Descrição:" for="descFormaPagamento"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-5 ui-md-3 ui-lg-5">
+	            			 		<p:inputText id="descFormaPagamento" value="#{mFormaPagamento.descFormaPagamentoFiltro}"/>
+			            		</p:outputPanel>
+		            		</p:outputPanel>
+		            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+			            		<p:outputPanel class="ui-g-12 ui-md-12 ui-lg-12" styleClass="rowBtnPesquisa">
+			            			<!-- BOTAO PESQUISAR -->
+	            					<p:commandButton icon="pi pi-search"  
+	            									 action="#{mFormaPagamento.filtrar()}"
+													 title="Pesquisar" 
+													 value="Pesquisar" 
+													 onclick="PF('statusDialog').show();" 
+													 oncomplete="PF('statusDialog').hide()" 
+													 update=":@form"/>
+									<!-- BOTAO LIMPAR PESQUISA -->
+	            			 		<p:commandButton ajax="true" 
+	            			 						 icon="pi pi-refresh" 
+	            			 						 action="#{mFormaPagamento.manterFormaPagamento()}"
+													 title="Limpar Pesquisa" 
+													 value="Limpar Pesquisa" 
+													 onclick="PF('statusDialog').show();" 
+													 oncomplete="PF('statusDialog').hide()"
+													 update="panelListaFormaPagamento"/>
+			            		</p:outputPanel>
+		            		</p:outputPanel>
+						</p:outputPanel>
+					</p:fieldset>
+			        <p:outputPanel id="panelListaFormaPagamento" style="margin-top:10px;">
+				        <p:fieldset legend="Lista de Forma de Pagamento" >   
+							<p:dataTable value="#{mFormaPagamento.listFormaPagamento}" id="dataTableFormaPagamento" var="formaPagamento"
+										 styleClass="comBorda" rows="15" paginator="true" paginatorPosition="bottom" 
+										 emptyMessage="Nenhum resultado para a pesquisa!"
+		                         		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+								
+								<p:column headerText="#" style="width:80px; text-align: center;">
+									<h:outputText value="#{formaPagamento.idFormaPagamento}" />
+								</p:column>
+								
+								<p:column headerText="Descricão">
+									<h:outputText value="#{formaPagamento.descricaoFormaPagamento}"/>
+								</p:column>
+								
+								<p:column headerText="Data Inclusão">
+									<h:outputText value="#{formaPagamento.dataInsercao}">
+										<f:convertDateTime pattern="dd/MM/yyy"/>
+									</h:outputText>
+								</p:column>
+			
+						        <p:column headerText="Ações" style="width:10%; text-align: center;">
+						        
+									<p:commandButton onsuccess="PF('formaPagamentoDialog').show();"
+													 update=":formDialog:formaPagamentoDetailDiv"
+													 icon="fa fa-fw fa-edit"
+													 label="Editar">
+													 
+										<f:setPropertyActionListener target="#{mFormaPagamento.acaoFormaPagamento}" value="#{ConstantesSistema.ACAO_EDITAR}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.id}" 			  value="#{formaPagamento.idFormaPagamento}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.descricaoFormaPagamento}"  value="#{formaPagamento.descricaoFormaPagamento}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.usuarioInsercao}"  value="#{formaPagamento.usuarioInsercao}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.usuarioAlteracao}" value="#{formaPagamento.usuarioAlteracao}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.usuarioExclusao}"  value="#{formaPagamento.usuarioExclusao}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.dataInsercao}" 	  value="#{formaPagamento.dataInsercao}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.dataAlteracao}"    value="#{formaPagamento.dataAlteracao}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.dataExclusao}"     value="#{formaPagamento.dataExclusao}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.registroExcluido}" value="#{formaPagamento.registroExcluido}"/>
+										
+									</p:commandButton>
+									<p:commandButton action="#{mFormaPagamento.executarAcaoFormaPagamento()}"
+													 update=":@form"
+													 icon="pi pi-trash"
+													 label="Excluir">
+										<p:confirm header="Excluir Módulo" message="Você confirma a exclusão do módulo?"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.acaoFormaPagamento}" value="#{ConstantesSistema.ACAO_EXCLUIR}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.id}" 			  value="#{formaPagamento.idFormaPagamento}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.descricaoFormaPagamento}"  value="#{formaPagamento.descricaoFormaPagamento}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.usuarioInsercao}"  value="#{formaPagamento.usuarioInsercao}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.usuarioAlteracao}" value="#{formaPagamento.usuarioAlteracao}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.usuarioExclusao}"  value="#{formaPagamento.usuarioExclusao}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.dataInsercao}" 	  value="#{formaPagamento.dataInsercao}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.dataAlteracao}"    value="#{formaPagamento.dataAlteracao}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.dataExclusao}"     value="#{formaPagamento.dataExclusao}"/>
+										<f:setPropertyActionListener target="#{mFormaPagamento.registroExcluido}" value="#{formaPagamento.registroExcluido}"/>
+									</p:commandButton>
+									
+								</p:column>
+								<f:facet name="footer">
+								</f:facet>
+							</p:dataTable>
+						</p:fieldset>
+					</p:outputPanel> 
+				</p:panel>
+			</h:form>	
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</h:html>

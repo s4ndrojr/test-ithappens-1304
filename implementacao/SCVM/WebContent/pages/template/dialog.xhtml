@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<p:dialog modal="true" widgetVar="statusDialog" header="Aguarde... Agendando!" draggable="false" closable="false" resizable="false" width="235">
+		<p:panelGrid styleClass="semBorda">		
+		    <p:row>
+			    <p:column style="text-align: center;" >
+				    <p:graphicImage value="#{pageContext.servletContext.contextPath}/resources/img/carregando-pacotes_SEM_CARREGANDO.gif" style="height:200px;"/>						    	
+			    </p:column>		
+			</p:row> 
+		</p:panelGrid>
+	</p:dialog>
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+</h:body>
+</h:html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+		<persistence-unit name="scvmPu">
+			<provider>org.hibernate.ejb.HibernatePersistence</provider>
+	        <jta-data-source>scvmDS</jta-data-source>
+	        <class>br.ma.mateus.ejb.scvm.model.TbCliente</class>
+	        <class>br.ma.mateus.ejb.scvm.model.TbEstoque</class>
+	        <class>br.ma.mateus.ejb.scvm.model.TbFilial</class>
+	        <class>br.ma.mateus.ejb.scvm.model.TbFormaPagamento</class>
+	        <class>br.ma.mateus.ejb.scvm.model.TbItensPedido</class>
+	        <class>br.ma.mateus.ejb.scvm.model.TbPedidoEstoque</class>
+	        <class>br.ma.mateus.ejb.scvm.model.TbProduto</class>
+	        <class>br.ma.mateus.ejb.scvm.model.TbStatus</class>
+	        <class>br.ma.mateus.ejb.scvm.model.TbTipoCliente</class>
+	        <class>br.ma.mateus.ejb.scvm.model.TbTipoPedidoEstoque</class>
+	        <class>br.ma.mateus.ejb.scvm.model.TbUsuario</class>
+
+			<properties>
+	        	<property name="hibernate.hbm2ddl.auto" value="none"/>
+	        	<property name="hibernate.show_sql" value="true"/>
+  			<property name="hibernate.format_sql" value="none"/>
+     	</properties>		  
+		</persistence-unit>		 
+</persistence> 	 

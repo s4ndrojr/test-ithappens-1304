@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<h:head>
+
+	<h:outputStylesheet name="template.css" library="css" />
+	<style>
+		@media only screen and (max-width: 1024px) {
+			body{
+				background-color: #084b8a !important;		
+			}
+		}
+	</style>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+</h:head>
+
+<h:body>
+	<h:form id="form" >
+		<p:outputPanel styleClass="divAreaLateral">
+			<p:outputPanel styleClass="divLogoLogin">
+				<p:outputPanel styleClass="divLogoLogin">
+					<h:graphicImage id="imagemLogo" value="/resources/img/logo.jpeg" style="width: 50px; margin: 8px 6px 0px 20px; float: left;"/>
+					<p:outputPanel styleClass="divTextoLogin">	
+						<h:outputLabel class="tituloAplicacao">SCVM</h:outputLabel>
+						<h:outputLabel class="tituloAplicacao subtituloAplicacao">Sistema de Controle de Vendas Mateus</h:outputLabel>
+					</p:outputPanel>
+				</p:outputPanel>
+			</p:outputPanel>
+		
+			<p:outputPanel styleClass="divLogin">
+				<p:outputPanel>
+					<p:growl id="msgs" showDetail="false" autoUpdate="true" sticky="true"/>
+			
+					<h:outputLabel style="color: white; font-weight: bold;" value="login:" />
+					<p:inputText value="#{loginBean.login}"/>
+					
+				</p:outputPanel>
+				<p/>
+				<p:outputPanel id="log">
+					<h:outputLabel style="color: white; font-weight: bold;" value="Senha:" />
+					<p:password value="#{loginBean.senha}"/>
+				</p:outputPanel>
+					
+				<p:outputPanel style="margin-top: 15px !important;">
+					<p:commandButton title="Entrar no SCVM"
+								 styleClass="botaoEntrar" 
+								 value="ENTRAR" 
+								 ajax="true"
+								 style="width: 100%; margin-left: 0px !important; font-size: 15px !important; font-weight: bold !important;"
+								 update="@form"
+								 action="#{loginBean.logar()}"/>
+				 </p:outputPanel>
+			 </p:outputPanel>
+			
+		</p:outputPanel>
+	</h:form>
+</h:body>
+
+</h:html>

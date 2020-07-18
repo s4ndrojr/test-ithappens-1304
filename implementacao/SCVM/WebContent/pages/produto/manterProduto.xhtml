@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/pages/template/layout.xhtml">
+		<ui:define name="content">
+		<ui:include src="/pages/produto/dialogProduto.xhtml" />
+			<h:form id="form">
+				<ui:include src="/pages/template/dialog.xhtml" />
+				<p:growl id="msgs" showDetail="true"/>
+				
+				<!-- FIELDSET CONTEUDO -->
+				<p:panel header="Manter Produto">
+				
+					<f:facet name="actions">
+				    	<p:commandButton onsuccess="PF('produtoDialog').show();" style="float: right; margin-left: 6px; color: white;"
+													 update=":formDialog:produtoDetailDiv"  icon="fa fa-fw fa-user-plus"
+													 immediate="true"
+													 value="Novo"
+													 label="Novo Módulo">
+							<f:setPropertyActionListener target="#{mProduto.acaoProdutoDialog}" value="#{ConstantesSistema.ACAO_INSERIR}"/>
+						</p:commandButton>
+				   		<p:commandButton style="float: right; color: white;" value="Voltar" immediate="true"
+				   						 action="/pages/principal.jsf?faces-redirect=true" icon="fa fa-fw fa-arrow-circle-left"/>
+				    </f:facet>	
+
+					<!-- FIELDSET CONTEUDO -->
+					<p:fieldset legend="Pesquisar Produto" toggleable="true" toggleSpeed="500">
+						<p:outputPanel class="ui-g">
+		            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+			            		<p:outputPanel class="ui-g-1 ui-md-3 ui-lg-1">
+	            					<h:outputLabel value="Código de Barras:" for="codBarras"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-5 ui-md-3 ui-lg-5">
+	            			 		<p:inputText id="codBarras" value="#{mProduto.codBarraProdutoFiltro}"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-1 ui-md-3 ui-lg-1" style="text-align:right" >
+	            					<h:outputLabel value="Descrição:" for="descProduto"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-5 ui-md-3 ui-lg-5">
+	            			 		<p:inputText id="descProduto" value="#{mProduto.descProdutoFiltro}"/>
+			            		</p:outputPanel>
+		            		</p:outputPanel>
+		            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+			            		<p:outputPanel class="ui-g-12 ui-md-12 ui-lg-12" styleClass="rowBtnPesquisa">
+			            			<!-- BOTAO PESQUISAR -->
+	            					<p:commandButton icon="pi pi-search"  
+	            									 action="#{mProduto.filtrar()}"
+													 title="Pesquisar" 
+													 value="Pesquisar" 
+													 onclick="PF('statusDialog').show();" 
+													 oncomplete="PF('statusDialog').hide()" 
+													 update=":@form"/>
+									<!-- BOTAO LIMPAR PESQUISA -->
+	            			 		<p:commandButton ajax="true" 
+	            			 						 icon="pi pi-refresh" 
+	            			 						 action="#{mProduto.manterProduto()}"
+													 title="Limpar Pesquisa" 
+													 value="Limpar Pesquisa" 
+													 onclick="PF('statusDialog').show();" 
+													 oncomplete="PF('statusDialog').hide()"
+													 update="panelListaProduto"/>
+			            		</p:outputPanel>
+		            		</p:outputPanel>
+						</p:outputPanel>
+					</p:fieldset>
+			        <p:outputPanel id="panelListaProduto" style="margin-top:10px;">
+				        <p:fieldset legend="Lista de Produtos" >   
+							<p:dataTable value="#{mProduto.listProduto}" id="dataTableProduto" var="produto"
+										 styleClass="comBorda" rows="15" paginator="true" paginatorPosition="bottom" 
+										 emptyMessage="Nenhum resultado para a pesquisa!"
+		                         		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+								
+								<p:column headerText="#" style="width:80px; text-align: center;">
+									<h:outputText value="#{produto.idProduto}" />
+								</p:column>
+								
+								<p:column headerText="Código de Barras">
+									<h:outputText value="#{produto.codigoBarrasProduto}"/>
+								</p:column>
+								
+								<p:column headerText="Descricão">
+									<h:outputText value="#{produto.descricaoProduto}"/>
+								</p:column>
+								
+								<p:column headerText="Data Inclusão">
+									<h:outputText value="#{produto.dataInsercao}">
+										<f:convertDateTime pattern="dd/MM/yyy"/>
+									</h:outputText>
+								</p:column>
+			
+						        <p:column headerText="Ações" style="width:10%; text-align: center;">
+						        
+									<p:commandButton onsuccess="PF('produtoDialog').show();"
+													 update=":formDialog:produtoDetailDiv"
+													 icon="fa fa-fw fa-edit"
+													 label="Editar">
+													 
+										<f:setPropertyActionListener target="#{mProduto.acaoProdutoDialog}" value="#{ConstantesSistema.ACAO_EDITAR}"/>
+										<f:setPropertyActionListener target="#{mProduto.id}" 			  value="#{produto.idProduto}"/>
+										<f:setPropertyActionListener target="#{mProduto.codigoBarrasProduto}" value="#{produto.codigoBarrasProduto}"/>
+										<f:setPropertyActionListener target="#{mProduto.descricaoProduto}"  value="#{produto.descricaoProduto}"/>
+										<f:setPropertyActionListener target="#{mProduto.usuarioInsercao}"  value="#{produto.usuarioInsercao}"/>
+										<f:setPropertyActionListener target="#{mProduto.usuarioAlteracao}" value="#{produto.usuarioAlteracao}"/>
+										<f:setPropertyActionListener target="#{mProduto.usuarioExclusao}"  value="#{produto.usuarioExclusao}"/>
+										<f:setPropertyActionListener target="#{mProduto.dataInsercao}" 	  value="#{produto.dataInsercao}"/>
+										<f:setPropertyActionListener target="#{mProduto.dataAlteracao}"    value="#{produto.dataAlteracao}"/>
+										<f:setPropertyActionListener target="#{mProduto.dataExclusao}"     value="#{produto.dataExclusao}"/>
+										<f:setPropertyActionListener target="#{mProduto.registroExcluido}" value="#{produto.registroExcluido}"/>
+										
+									</p:commandButton>
+									<p:commandButton action="#{mProduto.executarAcaoProduto()}"
+													 update=":@form"
+													 icon="pi pi-trash"
+													 label="Excluir">
+										<p:confirm header="Excluir Módulo" message="Você confirma a exclusão do módulo?"/>
+										<f:setPropertyActionListener target="#{mProduto.acaoProdutoDialog}" value="#{ConstantesSistema.ACAO_EXCLUIR}"/>
+										<f:setPropertyActionListener target="#{mProduto.id}" 			  value="#{produto.idProduto}"/>
+										<f:setPropertyActionListener target="#{mProduto.codigoBarrasProduto}" value="#{produto.codigoBarrasProduto}"/>
+										<f:setPropertyActionListener target="#{mProduto.descricaoProduto}"  value="#{produto.descricaoProduto}"/>
+										<f:setPropertyActionListener target="#{mProduto.usuarioInsercao}"  value="#{produto.usuarioInsercao}"/>
+										<f:setPropertyActionListener target="#{mProduto.usuarioAlteracao}" value="#{produto.usuarioAlteracao}"/>
+										<f:setPropertyActionListener target="#{mProduto.usuarioExclusao}"  value="#{produto.usuarioExclusao}"/>
+										<f:setPropertyActionListener target="#{mProduto.dataInsercao}" 	  value="#{produto.dataInsercao}"/>
+										<f:setPropertyActionListener target="#{mProduto.dataAlteracao}"    value="#{produto.dataAlteracao}"/>
+										<f:setPropertyActionListener target="#{mProduto.dataExclusao}"     value="#{produto.dataExclusao}"/>
+										<f:setPropertyActionListener target="#{mProduto.registroExcluido}" value="#{produto.registroExcluido}"/>
+									</p:commandButton>
+									
+								</p:column>
+								<f:facet name="footer">
+								</f:facet>
+							</p:dataTable>
+						</p:fieldset>
+					</p:outputPanel> 
+				</p:panel>
+				
+			</h:form>	
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</h:html>

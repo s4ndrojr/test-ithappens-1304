@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/pages/template/layout.xhtml">
+		<ui:define name="content">
+		<ui:include src="/pages/usuario/dialogUsuario.xhtml" />
+			<h:form id="form">
+				<ui:include src="/pages/template/dialog.xhtml" />
+				<p:growl id="msgs" showDetail="true"/>
+				
+				<!-- FIELDSET CONTEUDO -->
+				<p:panel header="Manter Usuário">
+				
+					<f:facet name="actions">
+				    	<p:commandButton onsuccess="PF('usuarioDialog').show();" style="float: right; margin-left: 6px; color: white;"
+													 update=":formDialog:usuarioDetailDiv"  icon="fa fa-fw fa-user-plus"
+													 immediate="true"
+													 value="Novo"
+													 label="Nova Usuário">
+							<f:setPropertyActionListener target="#{mUsuario.acaoUsuario}" value="#{ConstantesSistema.ACAO_INSERIR}"/>
+						</p:commandButton>
+				   		<p:commandButton style="float: right; color: white;" value="Voltar" immediate="true"
+				   						 action="/pages/principal.jsf?faces-redirect=true" icon="fa fa-fw fa-arrow-circle-left"/>
+				    </f:facet>	
+
+					<!-- FIELDSET CONTEUDO -->
+					<p:fieldset legend="Pesquisar Usuário" toggleable="true" toggleSpeed="500">
+						<p:outputPanel class="ui-g">
+		            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+			            		<p:outputPanel class="ui-g-1 ui-md-3 ui-lg-1" style="text-align:right" >
+	            					<h:outputLabel value="Código:" for="codUsuario"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-5 ui-md-3 ui-lg-5">
+	            			 		<p:inputText id="codUsuario" value="#{mUsuario.idUsuarioFiltro}"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-1 ui-md-3 ui-lg-1" style="text-align:right" >
+	            					<h:outputLabel value="Login:" for="loginUsuario"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-5 ui-md-3 ui-lg-5">
+	            			 		<p:inputText id="loginUsuario" value="#{mUsuario.loginUsuarioFiltro}"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-1 ui-md-3 ui-lg-1" style="text-align:right" >
+	            					<h:outputLabel value="Nome:" for="nomeUsuario"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-5 ui-md-3 ui-lg-5">
+	            			 		<p:inputText id="nomeUsuario" value="#{mUsuario.nomeUsuarioFiltro}"/>
+			            		</p:outputPanel>
+		            		</p:outputPanel>
+		            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+			            		<p:outputPanel class="ui-g-12 ui-md-12 ui-lg-12" styleClass="rowBtnPesquisa">
+			            			<!-- BOTAO PESQUISAR -->
+	            					<p:commandButton icon="pi pi-search"  
+	            									 action="#{mUsuario.filtrar()}"
+													 title="Pesquisar" 
+													 value="Pesquisar" 
+													 onclick="PF('statusDialog').show();" 
+													 oncomplete="PF('statusDialog').hide()" 
+													 update=":@form"/>
+									<!-- BOTAO LIMPAR PESQUISA -->
+	            			 		<p:commandButton ajax="true" 
+	            			 						 icon="pi pi-refresh" 
+	            			 						 action="#{mUsuario.manterUsuario()}"
+													 title="Limpar Pesquisa" 
+													 value="Limpar Pesquisa" 
+													 onclick="PF('statusDialog').show();" 
+													 oncomplete="PF('statusDialog').hide()"
+													 update="panelListaUsuario"/>
+			            		</p:outputPanel>
+		            		</p:outputPanel>
+						</p:outputPanel>
+					</p:fieldset>
+			        <p:outputPanel id="panelListaUsuario" style="margin-top:10px;">
+				        <p:fieldset legend="Lista de Usuário" >   
+							<p:dataTable value="#{mUsuario.listUsuario}" id="dataTableUsuario" var="usuario"
+										 styleClass="comBorda" rows="15" paginator="true" paginatorPosition="bottom" 
+										 emptyMessage="Nenhum resultado para a pesquisa!"
+		                         		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+								
+								<p:column headerText="Código" style="width:80px; text-align: center;">
+									<h:outputText value="#{usuario.idUsuario}" />
+								</p:column>
+								
+								<p:column headerText="Login">
+									<h:outputText value="#{usuario.loginUsuario}"/>
+								</p:column>
+								
+								<p:column headerText="Nome">
+									<h:outputText value="#{usuario.nomeUsuario}"/>
+								</p:column>
+								
+								<p:column headerText="Data Inclusão">
+									<h:outputText value="#{usuario.dataInsercao}">
+										<f:convertDateTime pattern="dd/MM/yyy"/>
+									</h:outputText>
+								</p:column>
+			
+						        <p:column headerText="Ações" style="width:10%; text-align: center;">
+						        
+									<p:commandButton onsuccess="PF('usuarioDialog').show();"
+													 update=":formDialog:usuarioDetailDiv"
+													 icon="fa fa-fw fa-edit"
+													 label="Editar">
+													 
+										<f:setPropertyActionListener target="#{mUsuario.acaoUsuario}" value="#{ConstantesSistema.ACAO_EDITAR}"/>
+										<f:setPropertyActionListener target="#{mUsuario.id}" 			  value="#{usuario.idUsuario}"/>
+										<f:setPropertyActionListener target="#{mUsuario.loginUsuario}"  value="#{usuario.loginUsuario}"/>
+										<f:setPropertyActionListener target="#{mUsuario.nomeUsuario}"  value="#{usuario.nomeUsuario}"/>
+										<f:setPropertyActionListener target="#{mUsuario.usuarioInsercao}"  value="#{usuario.usuarioInsercao}"/>
+										<f:setPropertyActionListener target="#{mUsuario.usuarioAlteracao}" value="#{usuario.usuarioAlteracao}"/>
+										<f:setPropertyActionListener target="#{mUsuario.usuarioExclusao}"  value="#{usuario.usuarioExclusao}"/>
+										<f:setPropertyActionListener target="#{mUsuario.dataInsercao}" 	  value="#{usuario.dataInsercao}"/>
+										<f:setPropertyActionListener target="#{mUsuario.dataAlteracao}"    value="#{usuario.dataAlteracao}"/>
+										<f:setPropertyActionListener target="#{mUsuario.dataExclusao}"     value="#{usuario.dataExclusao}"/>
+										<f:setPropertyActionListener target="#{mUsuario.registroExcluido}" value="#{usuario.registroExcluido}"/>
+										
+									</p:commandButton>
+									<p:commandButton action="#{mUsuario.executarAcaoUsuario()}"
+													 update=":@form"
+													 icon="pi pi-trash"
+													 label="Excluir">
+										<p:confirm header="Excluir Módulo" message="Você confirma a exclusão do módulo?"/>
+										<f:setPropertyActionListener target="#{mUsuario.acaoUsuario}" value="#{ConstantesSistema.ACAO_EXCLUIR}"/>
+										<f:setPropertyActionListener target="#{mUsuario.id}" 			  value="#{usuario.idUsuario}"/>
+										<f:setPropertyActionListener target="#{mUsuario.loginUsuario}"  value="#{usuario.loginUsuario}"/>
+										<f:setPropertyActionListener target="#{mUsuario.nomeUsuario}"  value="#{usuario.nomeUsuario}"/>
+										<f:setPropertyActionListener target="#{mUsuario.usuarioInsercao}"  value="#{usuario.usuarioInsercao}"/>
+										<f:setPropertyActionListener target="#{mUsuario.usuarioAlteracao}" value="#{usuario.usuarioAlteracao}"/>
+										<f:setPropertyActionListener target="#{mUsuario.usuarioExclusao}"  value="#{usuario.usuarioExclusao}"/>
+										<f:setPropertyActionListener target="#{mUsuario.dataInsercao}" 	  value="#{usuario.dataInsercao}"/>
+										<f:setPropertyActionListener target="#{mUsuario.dataAlteracao}"    value="#{usuario.dataAlteracao}"/>
+										<f:setPropertyActionListener target="#{mUsuario.dataExclusao}"     value="#{usuario.dataExclusao}"/>
+										<f:setPropertyActionListener target="#{mUsuario.registroExcluido}" value="#{usuario.registroExcluido}"/>
+									</p:commandButton>
+									
+								</p:column>
+								<f:facet name="footer">
+								</f:facet>
+							</p:dataTable>
+						</p:fieldset>
+					</p:outputPanel> 
+				</p:panel>
+			</h:form>	
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</h:html>

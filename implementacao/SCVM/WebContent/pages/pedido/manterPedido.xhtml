@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/pages/template/layout.xhtml">
+		<ui:define name="content">
+		<ui:include src="/pages/pedido/dialogPedido.xhtml" />
+			<h:form id="form">
+				<ui:include src="/pages/template/dialog.xhtml" />
+				<p:growl id="msgs" showDetail="true"/>
+				
+				<!-- FIELDSET CONTEUDO -->
+				<p:panel header="Cadastro Pedido">
+				
+					<f:facet name="actions">
+				    	<p:commandButton onsuccess="PF('pedidoDialog').show();" style="float: right; margin-left: 6px; color: white;"
+													 update=":formDialog:pedidoDetailDiv"  icon="fa fa-fw fa-user-plus"
+													 immediate="true"
+													 value="Novo"
+													 label="Nova Pedido">
+							<f:setPropertyActionListener target="#{mPedido.acaoPedido}" value="#{ConstantesSistema.ACAO_INSERIR}"/>
+						</p:commandButton>
+				   		<p:commandButton style="float: right; color: white;" value="Voltar" immediate="true"
+				   						 action="/pages/principal.jsf?faces-redirect=true" icon="fa fa-fw fa-arrow-circle-left"/>
+				    </f:facet>	
+
+					<!-- FIELDSET CONTEUDO -->
+					<p:fieldset legend="Pesquisar Pedido" toggleable="true" toggleSpeed="500">
+						<p:outputPanel class="ui-g">
+		            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+			            		<p:outputPanel class="ui-g-1 ui-md-3 ui-lg-1" style="text-align:right" >
+	            					<h:outputLabel value="Código:" for="codPedido"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-5 ui-md-3 ui-lg-5">
+	            			 		<p:inputText id="codPedido" value="#{mPedido.idPedidoFiltro}"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-1 ui-md-3 ui-lg-1" style="text-align:right" >
+	            					<h:outputLabel value="Login:" for="loginPedido"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-5 ui-md-3 ui-lg-5">
+	            			 		<p:inputText id="loginPedido" value="#{mPedido.loginPedidoFiltro}"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-1 ui-md-3 ui-lg-1" style="text-align:right" >
+	            					<h:outputLabel value="Nome:" for="nomePedido"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-5 ui-md-3 ui-lg-5">
+	            			 		<p:inputText id="nomePedido" value="#{mPedido.nomePedidoFiltro}"/>
+			            		</p:outputPanel>
+		            		</p:outputPanel>
+		            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+			            		<p:outputPanel class="ui-g-12 ui-md-12 ui-lg-12" styleClass="rowBtnPesquisa">
+			            			<!-- BOTAO PESQUISAR -->
+	            					<p:commandButton icon="pi pi-search"  
+	            									 action="#{mPedido.filtrar()}"
+													 title="Pesquisar" 
+													 value="Pesquisar" 
+													 onclick="PF('statusDialog').show();" 
+													 oncomplete="PF('statusDialog').hide()" 
+													 update=":@form"/>
+									<!-- BOTAO LIMPAR PESQUISA -->
+	            			 		<p:commandButton ajax="true" 
+	            			 						 icon="pi pi-refresh" 
+	            			 						 action="#{mPedido.manterPedido()}"
+													 title="Limpar Pesquisa" 
+													 value="Limpar Pesquisa" 
+													 onclick="PF('statusDialog').show();" 
+													 oncomplete="PF('statusDialog').hide()"
+													 update="panelListaPedido"/>
+			            		</p:outputPanel>
+		            		</p:outputPanel>
+						</p:outputPanel>
+					</p:fieldset>
+			        <p:outputPanel id="panelListaPedido" style="margin-top:10px;">
+				        <p:fieldset legend="Lista de Pedido" >   
+							<p:dataTable value="#{mPedido.listPedido}" id="dataTablePedido" var="pedido"
+										 styleClass="comBorda" rows="15" paginator="true" paginatorPosition="bottom" 
+										 emptyMessage="Nenhum resultado para a pesquisa!"
+		                         		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+								
+								<p:column headerText="Código" style="width:80px; text-align: center;">
+									<h:outputText value="#{pedido.idPedido}" />
+								</p:column>
+								
+								<p:column headerText="Login">
+									<h:outputText value="#{pedido.loginPedido}"/>
+								</p:column>
+								
+								<p:column headerText="Nome">
+									<h:outputText value="#{pedido.nomePedido}"/>
+								</p:column>
+								
+								<p:column headerText="Data Inclusão">
+									<h:outputText value="#{pedido.dataInsercao}">
+										<f:convertDateTime pattern="dd/MM/yyy"/>
+									</h:outputText>
+								</p:column>
+			
+						        <p:column headerText="Ações" style="width:10%; text-align: center;">
+						        
+									<p:commandButton onsuccess="PF('pedidoDialog').show();"
+													 update=":formDialog:pedidoDetailDiv"
+													 icon="fa fa-fw fa-edit"
+													 label="Editar">
+													 
+										<f:setPropertyActionListener target="#{mPedido.acaoPedido}" value="#{ConstantesSistema.ACAO_EDITAR}"/>
+										<f:setPropertyActionListener target="#{mPedido.id}" 			  value="#{pedido.idPedido}"/>
+										<f:setPropertyActionListener target="#{mPedido.loginPedido}"  value="#{pedido.loginPedido}"/>
+										<f:setPropertyActionListener target="#{mPedido.nomePedido}"  value="#{pedido.nomePedido}"/>
+										<f:setPropertyActionListener target="#{mPedido.pedidoInsercao}"  value="#{pedido.pedidoInsercao}"/>
+										<f:setPropertyActionListener target="#{mPedido.pedidoAlteracao}" value="#{pedido.pedidoAlteracao}"/>
+										<f:setPropertyActionListener target="#{mPedido.pedidoExclusao}"  value="#{pedido.pedidoExclusao}"/>
+										<f:setPropertyActionListener target="#{mPedido.dataInsercao}" 	  value="#{pedido.dataInsercao}"/>
+										<f:setPropertyActionListener target="#{mPedido.dataAlteracao}"    value="#{pedido.dataAlteracao}"/>
+										<f:setPropertyActionListener target="#{mPedido.dataExclusao}"     value="#{pedido.dataExclusao}"/>
+										<f:setPropertyActionListener target="#{mPedido.registroExcluido}" value="#{pedido.registroExcluido}"/>
+										
+									</p:commandButton>
+									<p:commandButton action="#{mPedido.executarAcaoPedido()}"
+													 update=":@form"
+													 icon="pi pi-trash"
+													 label="Excluir">
+										<p:confirm header="Excluir Módulo" message="Você confirma a exclusão do módulo?"/>
+										<f:setPropertyActionListener target="#{mPedido.acaoPedido}" value="#{ConstantesSistema.ACAO_EXCLUIR}"/>
+										<f:setPropertyActionListener target="#{mPedido.id}" 			  value="#{pedido.idPedido}"/>
+										<f:setPropertyActionListener target="#{mPedido.loginPedido}"  value="#{pedido.loginPedido}"/>
+										<f:setPropertyActionListener target="#{mPedido.nomePedido}"  value="#{pedido.nomePedido}"/>
+										<f:setPropertyActionListener target="#{mPedido.pedidoInsercao}"  value="#{pedido.pedidoInsercao}"/>
+										<f:setPropertyActionListener target="#{mPedido.pedidoAlteracao}" value="#{pedido.pedidoAlteracao}"/>
+										<f:setPropertyActionListener target="#{mPedido.pedidoExclusao}"  value="#{pedido.pedidoExclusao}"/>
+										<f:setPropertyActionListener target="#{mPedido.dataInsercao}" 	  value="#{pedido.dataInsercao}"/>
+										<f:setPropertyActionListener target="#{mPedido.dataAlteracao}"    value="#{pedido.dataAlteracao}"/>
+										<f:setPropertyActionListener target="#{mPedido.dataExclusao}"     value="#{pedido.dataExclusao}"/>
+										<f:setPropertyActionListener target="#{mPedido.registroExcluido}" value="#{pedido.registroExcluido}"/>
+									</p:commandButton>
+									
+								</p:column>
+								<f:facet name="footer">
+								</f:facet>
+							</p:dataTable>
+						</p:fieldset>
+					</p:outputPanel> 
+				</p:panel>
+			</h:form>	
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</h:html>

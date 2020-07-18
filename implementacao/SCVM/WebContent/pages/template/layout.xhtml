@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<!-- <script src="https://code.jquery.com/jquery-3.5.0.js"></script> -->
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+	<h:outputStylesheet name="template.css" library="css" />
+	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
+	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
+	<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+	<p:importConstants type="br.ma.mateus.scvm.util.ConstantesSistema" var="ConstantesSistema"/>
+	
+<!-- 	<p:importConstants type="br.gov.ma.caema.ejb.orca.model.cadastro.ClienteTipo" var="ClienteTipo"/> -->
+<!-- 	<p:importConstants type="br.gov.ma.caema.ejb.orca.util.ConstantesSistema" var="ConstantesSistema"/>   -->
+		<script>
+        PrimeFaces.locales['pt'] = {
+                closeText: 'Fechar',
+                prevText: 'Anterior',
+                nextText: 'Próximo',
+                currentText: 'Hoje',
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+                    'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                weekHeader: 'dd/MM/yyy',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: 'dd/MM/yyyy',
+                month: 'Mês',
+                week: 'Semana',
+                day: 'Dia',
+                allDayText: 'Todo Dia'
+            };
+		</script>
+		
+ <!-- 		<script type="text/javascript">
+			$( document ).ready(function() {
+				alert();
+			});
+		</script>
+		 -->
+		 
+</h:head>
+
+<h:body>
+	<ui:include src="/pages/template/dialog.xhtml"></ui:include>
+	   <p:outputPanel>
+			<ui:insert name="header" >
+				<p:outputPanel>				
+					<ui:include src="toparea.xhtml" />					
+				</p:outputPanel>
+				<p:outputPanel>				
+					<ui:include src="menunovo.xhtml" />					
+				</p:outputPanel>
+
+			</ui:insert>
+	    </p:outputPanel>
+	    
+	    <!-- CORPO ONDE TUDO SERÁ ABERTO APÓS AÇÕES -->
+	    <p:outputPanel styleClass="divCorpo">
+	    	<p:outputPanel id="divCorpoAgenda" styleClass="divCorpoAgenda">
+			  	<ui:insert name="content" >
+			   	</ui:insert>
+		   	</p:outputPanel>
+	    </p:outputPanel>
+		    
+<!--   <p:outputPanel>
+	    	<ui:insert name="footer" >
+	    	  <ui:include src="rodape.xhtml" />
+	    	</ui:insert>
+   	    </p:outputPanel> -->
+</h:body>
+</h:html>

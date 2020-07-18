@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/pages/template/layout.xhtml">
+		<ui:define name="content">
+		<ui:include src="/pages/gestao/pedido/dialogPedido.xhtml" />
+			<h:form id="form">
+				<ui:include src="/pages/template/dialog.xhtml" />
+				<p:growl id="msgs" showDetail="true"/>
+				
+				<p:panel header="Cadastrar Pedido">
+					<f:facet name="actions">
+				   		<p:commandButton style="float: right; color: white;" value="Voltar" immediate="true"
+				   						 action="#{mPedido.manterPedido()}" icon="fa fa-fw fa-arrow-circle-left"/>
+				    </f:facet>
+					<p:outputPanel id="divPedido" class="ui-g"> 
+						<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12" rendered="#{mPedido.rendered}">
+		            		<p:outputPanel class="ui-g-1 ui-md-1 ui-lg-1">
+		            			<p:outputLabel value="Id:" for="idPedido" />
+		            		</p:outputPanel>
+		            		<p:outputPanel class="ui-g-1 ui-md-1 ui-lg-1">
+		            			<p:inputText id="idPedido" value="#{mPedido.pedido.idPedidoEstoque}" readonly="#{mPedido.readOnly}"/>
+		            		</p:outputPanel>
+	            		</p:outputPanel>
+				    	<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+		            		<p:outputPanel class="ui-g-1 ui-md-1 ui-lg-1">
+		            			<h:outputLabel value="Nome do Usuário: *" for="nomeUsuario"/>
+		            		</p:outputPanel>
+		            		<p:outputPanel class="ui-g-11 ui-md-11 ui-lg-9">
+		            			<p:inputText id="nomeUsuario" value="#{mPedido.usuarioLogado}"/>
+		            		</p:outputPanel>
+	            		</p:outputPanel>
+	            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+		            		<p:outputPanel class="ui-g-1 ui-md-1 ui-lg-1">
+		            			<h:outputLabel value="Filial: *" for="descFilial"/>
+		            		</p:outputPanel>
+		            		<p:outputPanel class="ui-g-11 ui-md-11 ui-lg-9">
+		            			<p:inputText id="descFilial" value="#{mPedido.pedido.tbFilial.nomeFilial}"/>
+		            			<p:commandButton process="@this" update=":formDialog"
+		            							 value="Buscar Filial" 
+		            							 oncomplete="PF('buscaFilialDialog').show()"
+												 icon="pi pi-save" style="float:right"/>
+		            		</p:outputPanel>
+	            		</p:outputPanel>
+	            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+		            		<p:outputPanel class="ui-g-1 ui-md-1 ui-lg-1">
+		            			<h:outputLabel value="Cliente: *" for="descCliente"/>
+		            		</p:outputPanel>
+		            		<p:outputPanel class="ui-g-11 ui-md-11 ui-lg-9">
+		            			<p:inputText id="descCliente" value="#{mPedido.pedido.tbCliente.nomeCliente}"/>
+		            			<p:commandButton process="@this" update=":formDialog"
+		            							 value="Buscar Filial"  
+		            							 oncomplete="PF('buscaClienteDialog').show()"
+												 icon="pi pi-save" style="float:right"/>
+		            		</p:outputPanel>
+	            		</p:outputPanel>
+	            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+		            		<p:outputPanel class="ui-g-1 ui-md-1 ui-lg-1">
+		            			<h:outputLabel value="Observação: *" for="descObservacao"/>
+		            		</p:outputPanel>
+		            		<p:outputPanel class="ui-g-11 ui-md-11 ui-lg-9">
+		            			<p:inputTextarea id="descObservacao" value="#{mPedido.pedido.observacaoPedidoEstoque}"/>
+		            		</p:outputPanel>
+	            		</p:outputPanel>
+	            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+		            		<p:outputPanel class="ui-g-1 ui-md-1 ui-lg-1">
+		            			<h:outputLabel value="Item: *" for="descItem"/>
+		            		</p:outputPanel>
+		            		<p:outputPanel class="ui-g-11 ui-md-11 ui-lg-9">
+		            			<p:inputText id="descItem" value="#{mPedido.pedido.tbCliente.nomeCliente}"/>
+		            			<p:commandButton process="@this" update=":formDialog" actionListener="#{mPedido.addItem()}"
+		            							 value="Adicionar Item"  
+												 icon="pi pi-save" style="float:right"/>
+								<p:commandButton process="@this" update=":formDialog"
+						            			 value="Adicionar Item" 
+						            			 oncomplete="PF('buscaItemDialog').show()"
+											     icon="pi pi-save" style="float:right"/>
+		            		</p:outputPanel>
+	            		</p:outputPanel>
+	            		<p:outputPanel id="divDataTable">
+	            			<style type="text/css">
+							    .red {
+							        background-color: white !important;
+							        background-image: none !important;
+							        color: red !important;
+							    }
+							</style>
+	            			<p:dataTable value="#{mPedido.listItensPedido}" rowStyleClass="#{mPedido.isItemRemovido(item) ? 'red' : null}"
+										 id="dataTableFuncionalidade" var="item" rowKey="#{item.identificacaoitemAplicacao}"
+										 styleClass="comBorda" rows="15" paginator="true" paginatorPosition="bottom" 
+										 emptyMessage="Nenhum resultado para a pesquisa!"
+		                         		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+								
+								<p:column headerText="Modulo">
+									<h:outputText value="#{item.tbAplicacaoModulo.tbModuloSistema.abreviacaoModulo}"/>
+								</p:column>
+								
+								<p:column headerText="Caso de Uso">
+									<h:outputText value="#{item.casoUso}"/>
+								</p:column>
+								
+								<p:column headerText="Aplicação">
+									<h:outputText value="#{item.tbAplicacaoModulo.descricaoAplicacaoModulo}"/>
+								</p:column>
+								
+								<p:column headerText="Opção">
+									<h:outputText value="#{item.descricaoitem}"/>
+								</p:column>
+								
+								<p:column headerText="Ações" style="width:10%; text-align: center;">
+						        
+									<p:commandButton action="#{mPedido.addListDeleteItem(item)}" rendered="#{!mPedido.isItemRemovido(item)}"
+													 update=":@form"
+													 icon="pi pi-trash"
+													 label="Excluir">
+										<p:confirm header="Excluir Funcionalidade" message="Você confirma a exclusão da Funcionalidade?"/>
+									</p:commandButton>
+									
+									<p:commandButton action="#{mPedido.removListDeleteItem(item)}" rendered="#{mPedido.isItemRemovido(item)}"
+													 update=":@form"
+													 icon="pi pi-trash"
+													 label="Excluir">
+										<p:confirm header="Tirar Funcionalidade excluída" message="Você confirma a exclusão da Funcionalidade?"/>
+									</p:commandButton>
+									
+								</p:column>
+								<f:facet name="footer">
+								</f:facet>
+							</p:dataTable>
+	            		</p:outputPanel>
+	            		<p:outputPanel style="height: 34px; margin-top:10px; width: 99%; margin-left: 3px; ">
+							<p:commandButton value="Salvar" action="#{mPedido.executarAcaoPedido()}" 
+											 onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"  
+											 icon="pi pi-save" style="float:right" update="msgs"/>
+							<p:commandButton value="Limpar" actionListener="#{mPedido.inicializar()}" update=":@form:divPedido" immediate="true"
+											 icon="pi pi-refresh" style="float:right; margin-right: 5px;"/>
+						</p:outputPanel>
+            		</p:outputPanel>
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+			
+</h:body>
+</h:html>

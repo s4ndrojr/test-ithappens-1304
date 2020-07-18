@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<p:dialog id="buscaFilialDialog" appendTo="@(body)"
+		header="Busca Filial" widgetVar="buscaFilialDialog"
+		modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+		<h:form id="formDialog">
+			<p:outputPanel id="buscaFilialDetail" style="text-align:center;"
+				styleClass="semBorda">
+				<p:growl id="msgs" showDetail="true" />
+				<p:panel id="buscaFilialDialogPanel" style="width: 100%;">
+					<p:fieldset legend="Pesquisar Filial" toggleable="true"
+						toggleSpeed="500">
+						<p:outputPanel class="ui-g">
+		            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+			            		<p:outputPanel class="ui-g-1 ui-md-3 ui-lg-1" style="text-align:right" >
+	            					<h:outputLabel value="Filial: *" for="descFilial"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-5 ui-md-3 ui-lg-5">
+	            			 		<p:inputText id="descFilial" value="#{mPedido.filial.nomeFilial}"/>
+			            		</p:outputPanel>
+		            		</p:outputPanel>
+		            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+			            		<p:outputPanel class="ui-g-12 ui-md-12 ui-lg-12" styleClass="rowBtnPesquisa">
+			            			<!-- BOTAO PESQUISAR -->
+	            					<p:commandButton icon="fa fa-fw fa-filter" title="Pesquisar"
+										value="Pesquisar" onclick="PF('statusDialog').show();"
+										oncomplete="PF('statusDialog').hide()"
+										action="#{mPedido.buscarFilial()}" update=":@form:divDataTableFilial" />
+			            		</p:outputPanel>
+		            		</p:outputPanel>
+						</p:outputPanel>
+					</p:fieldset>
+					<p:outputPanel id="divDataTableFilial">
+						<p:dataTable value="#{mPedido.listFilial}" id="dataTableFilial" var="filial"
+										 styleClass="comBorda" rows="15" paginator="true" paginatorPosition="bottom" 
+										 emptyMessage="Nenhum resultado para a pesquisa!"
+		                         		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+								
+								<p:column headerText="Código" style="width:80px; text-align: center;">
+									<h:outputText value="#{filial.idFilial}" />
+								</p:column>
+								
+								<p:column headerText="Nome">
+									<h:outputText value="#{filial.nomeFilial}"/>
+								</p:column>
+			
+						        <p:column headerText="Ações" style="width:10%; text-align: center;">
+						        
+									<p:commandButton onsuccess="PF('buscaFilialDialog').hide();"
+													 update=":form"
+													 icon="fa fa-fw fa-edit"
+													 label="Editar">
+													 
+										<f:setPropertyActionListener target="#{mPedido.pedido.tbFilial}" value="#{filial}"/>
+									</p:commandButton>
+								</p:column>
+								<f:facet name="footer">
+								</f:facet>
+							</p:dataTable>
+					</p:outputPanel>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+	</p:dialog>
+	
+	<p:dialog id="buscaClienteDialog" appendTo="@(body)"
+		header="Busca Cliente" widgetVar="buscaClienteDialog"
+		modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+		<h:form id="formDialog">
+			<p:outputPanel id="buscaClienteDetail" style="text-align:center;"
+				styleClass="semBorda">
+				<p:growl id="msgs" showDetail="true" />
+				<p:panel id="buscaClienteDialogPanel" style="width: 100%;">
+					<p:fieldset legend="Pesquisar Cliente" toggleable="true"
+						toggleSpeed="500">
+						<p:outputPanel class="ui-g">
+		            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+			            		<p:outputPanel class="ui-g-1 ui-md-3 ui-lg-1" style="text-align:right" >
+	            					<h:outputLabel value="Cliente: *" for="descCliente"/>
+			            		</p:outputPanel>
+			            		<p:outputPanel class="ui-g-5 ui-md-3 ui-lg-5">
+	            			 		<p:inputText id="descCliente" value="#{mPedido.cliente.nomeCliente}"/>
+			            		</p:outputPanel>
+		            		</p:outputPanel>
+		            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
+			            		<p:outputPanel class="ui-g-12 ui-md-12 ui-lg-12" styleClass="rowBtnPesquisa">
+			            			<!-- BOTAO PESQUISAR -->
+	            					<p:commandButton icon="fa fa-fw fa-filter" title="Pesquisar"
+										value="Pesquisar" onclick="PF('statusDialog').show();"
+										oncomplete="PF('statusDialog').hide()"
+										action="#{mPedido.buscarCliente()}" update=":@form:divDataTableCliente" />
+			            		</p:outputPanel>
+		            		</p:outputPanel>
+						</p:outputPanel>
+					</p:fieldset>
+					<p:outputPanel id="divDataTableCliente">
+						<p:dataTable value="#{mPedido.listCliente}" id="dataTableCliente" var="filial"
+										 styleClass="comBorda" rows="15" paginator="true" paginatorPosition="bottom" 
+										 emptyMessage="Nenhum resultado para a pesquisa!"
+		                         		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+								
+								<p:column headerText="Código" style="width:80px; text-align: center;">
+									<h:outputText value="#{filial.idCliente}" />
+								</p:column>
+								
+								<p:column headerText="Nome">
+									<h:outputText value="#{filial.nomeCliente}"/>
+								</p:column>
+			
+						        <p:column headerText="Ações" style="width:10%; text-align: center;">
+						        
+									<p:commandButton onsuccess="PF('buscaClienteDialog').hide();"
+													 update=":form"
+													 icon="fa fa-fw fa-edit"
+													 label="Editar">
+													 
+										<f:setPropertyActionListener target="#{mPedido.pedido.tbCliente}" value="#{cliente}"/>
+									</p:commandButton>
+								</p:column>
+								<f:facet name="footer">
+								</f:facet>
+							</p:dataTable>
+					</p:outputPanel>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+	</p:dialog>
+
+</h:body>
+</h:html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<p:dialog id="usuarioDialog"  
+			  appendTo="@(body)" header="#{mUsuario.acaoUsuario} Usuário" widgetVar="usuarioDialog" 
+			  modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+		  	<h:form id="formDialog">
+		        <p:outputPanel id="usuarioDetailDiv" style="text-align:center;" styleClass="semBorda" >
+	            <p:growl id="msgs" showDetail="true"/>
+					<p:panel id="usuarioDialogPanel" style="width: 100%;">
+			            <p:panelGrid columnClasses="label,value" styleClass="semBorda">
+							<p:row>
+						        <p:column style="font-weight: bold;">
+									<h:outputLabel value="Login: *" for="txtLoginUsuario"/>
+								</p:column>
+						        <p:column style="font-weight: bold;">
+						        	<p:inputText id="txtLoginUsuario" value="#{mUsuario.loginUsuario}" maxlength="100" />
+						        </p:column>
+						        <p:column style="font-weight: bold;">
+									<h:outputLabel value="Senha: *" for="txtSenhaUsuario"/>
+								</p:column>
+						        <p:column style="font-weight: bold;">
+						        	<p:inputText id="txtSenhaUsuario" value="#{mUsuario.senhaUsuario}" maxlength="100" />
+						        </p:column>
+						        <p:column style="font-weight: bold;">
+									<h:outputLabel value="Nome: *" for="txtNomeUsuario"/>
+								</p:column>
+						        <p:column style="font-weight: bold;">
+						        	<p:inputText id="txtNomeUsuario" value="#{mUsuario.nomeUsuario}" maxlength="200" />
+						        </p:column>
+							</p:row>
+					        <p:row >
+					        	<p:column  colspan="4"  style="font-weight: bold; text-align:right;">
+									<p:commandButton icon="fa fa-fw fa-filter"
+													 title="Salvar"
+													 actionListener="#{mUsuario.executarAcaoUsuario()}"
+													 value="Salvar"
+													 update=":@form:msgs :form" 
+													 oncomplete="PF('usuarioDialog').hide()"
+													 ajax="true">
+									</p:commandButton>
+						        </p:column>
+					        </p:row>
+			            </p:panelGrid>							
+					</p:panel>
+				</p:outputPanel>
+			</h:form>
+	    </p:dialog>	
+</h:body>
+</h:html>
