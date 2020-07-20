@@ -25,6 +25,9 @@ public class TbEstoque implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TB_ESTOQUE_IDESTOQUE_GENERATOR")
 	@Column(name="id_estoque")
 	private Integer idEstoque;
+	
+	@Column(name="valor_unitario_produto")
+	private double valorUnitarioProduto;
 
 	@Column(name="data_alteracao")
 	private Timestamp dataAlteracao;
@@ -149,6 +152,14 @@ public class TbEstoque implements Serializable {
 
 	public void setTbProduto(TbProduto tbProduto) {
 		this.tbProduto = tbProduto;
+	}
+	
+	public double getValorUnitarioProduto() {
+		return this.valorUnitarioProduto;
+	}
+
+	public void setValorUnitarioProduto(double valorUnitarioProduto) {
+		this.valorUnitarioProduto = valorUnitarioProduto;
 	}
 
 }

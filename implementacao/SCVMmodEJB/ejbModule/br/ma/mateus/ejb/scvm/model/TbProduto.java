@@ -65,9 +65,6 @@ public class TbProduto implements Serializable {
 	@Column(name="usuario_insercao")
 	private String usuarioInsercao;
 
-	@Column(name="valor_unitario_produto")
-	private double valorUnitarioProduto;
-
 	//bi-directional many-to-one association to TbEstoque
 	@OneToMany(mappedBy="tbProduto" )
 	private List<TbEstoque> tbEstoques;
@@ -157,14 +154,6 @@ public class TbProduto implements Serializable {
 
 	public void setUsuarioInsercao(String usuarioInsercao) {
 		this.usuarioInsercao = usuarioInsercao;
-	}
-
-	public double getValorUnitarioProduto() {
-		return this.valorUnitarioProduto;
-	}
-
-	public void setValorUnitarioProduto(double valorUnitarioProduto) {
-		this.valorUnitarioProduto = valorUnitarioProduto;
 	}
 
 	public List<TbEstoque> getTbEstoques() {
