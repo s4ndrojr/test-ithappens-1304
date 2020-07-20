@@ -87,6 +87,10 @@
 									<h:outputText value="#{produto.descricaoProduto}"/>
 								</p:column>
 								
+								<p:column headerText="Valor">
+									<h:outputText value="#{produto.valorUnitarioProduto}"/>
+								</p:column>								
+								
 								<p:column headerText="Data Inclusão">
 									<h:outputText value="#{produto.dataInsercao}">
 										<f:convertDateTime pattern="dd/MM/yyy"/>
@@ -104,6 +108,7 @@
 										<f:setPropertyActionListener target="#{mProduto.id}" 			  value="#{produto.idProduto}"/>
 										<f:setPropertyActionListener target="#{mProduto.codigoBarrasProduto}" value="#{produto.codigoBarrasProduto}"/>
 										<f:setPropertyActionListener target="#{mProduto.descricaoProduto}"  value="#{produto.descricaoProduto}"/>
+										<f:setPropertyActionListener target="#{mProduto.valorUnitario}"  value="#{produto.valorUnitarioProduto}"/>
 										<f:setPropertyActionListener target="#{mProduto.usuarioInsercao}"  value="#{produto.usuarioInsercao}"/>
 										<f:setPropertyActionListener target="#{mProduto.usuarioAlteracao}" value="#{produto.usuarioAlteracao}"/>
 										<f:setPropertyActionListener target="#{mProduto.usuarioExclusao}"  value="#{produto.usuarioExclusao}"/>
@@ -122,6 +127,7 @@
 										<f:setPropertyActionListener target="#{mProduto.id}" 			  value="#{produto.idProduto}"/>
 										<f:setPropertyActionListener target="#{mProduto.codigoBarrasProduto}" value="#{produto.codigoBarrasProduto}"/>
 										<f:setPropertyActionListener target="#{mProduto.descricaoProduto}"  value="#{produto.descricaoProduto}"/>
+										<f:setPropertyActionListener target="#{mProduto.valorUnitario}"  value="#{produto.valorUnitarioProduto}"/>
 										<f:setPropertyActionListener target="#{mProduto.usuarioInsercao}"  value="#{produto.usuarioInsercao}"/>
 										<f:setPropertyActionListener target="#{mProduto.usuarioAlteracao}" value="#{produto.usuarioAlteracao}"/>
 										<f:setPropertyActionListener target="#{mProduto.usuarioExclusao}"  value="#{produto.usuarioExclusao}"/>

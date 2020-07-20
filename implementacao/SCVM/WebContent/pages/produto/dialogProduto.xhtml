@@ -27,6 +27,13 @@
 						        <p:column style="font-weight: bold;">
 						        	<p:inputText id="txtDesc" value="#{mProduto.descricaoProduto}" maxlength="200" />
 						        </p:column>
+						         <p:column style="font-weight: bold;">
+									<h:outputLabel value="Valor: *" for="txtValor"/>
+								</p:column>
+						        <p:column style="font-weight: bold;">
+						        	<p:inputNumber id="txtValor" value="#{mProduto.valorUnitario}" decimalPlaces="2"  decimalSeparator=","  thousandSeparator=".">  
+				                	</p:inputNumber>  
+						        </p:column>
 							</p:row>
 					        <p:row >
 					        	<p:column  colspan="4"  style="font-weight: bold; text-align:right;">

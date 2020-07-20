@@ -23,11 +23,11 @@ public interface ProdutoFacade {
 	
 	public abstract List<TbProduto> find(Integer id, Long codigoBarras, String descricao, String registroExcluido);
 
-	public abstract Integer save(Long codigoBarrasProduto, String descricaoProduto, String usuarioInsercao,
+	public abstract Integer save(Long codigoBarrasProduto, String descricaoProduto, Double valorUnitario, String usuarioInsercao,
 			Date dataInsercao, String usuarioAlteracao, Date dataAlteracao, String registroExcluido,
 			String usuarioExclusao, Date dataExclusao) throws Exception;
 
-	public abstract void update(Integer id, Long codigoBarrasProduto, String descricaoProduto, String usuarioInsercao, Date dataInsercao,
+	public abstract void update(Integer id, Long codigoBarrasProduto, String descricaoProduto, Double valorUnitario, String usuarioInsercao, Date dataInsercao,
 			String usuarioAlteracao, Date dataAlteracao, String registroExcluido, String usuarioExclusao, Date dataExclusao) throws Exception;
 
 	public abstract boolean hasEstoqueOrItensPedido(Integer id);

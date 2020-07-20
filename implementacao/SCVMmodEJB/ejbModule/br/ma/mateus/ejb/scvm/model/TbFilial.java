@@ -50,6 +50,10 @@ public class TbFilial implements Serializable {
 	@OneToMany(mappedBy="tbFilial")
 	private List<TbEstoque> tbEstoques;
 
+	//bi-directional many-to-one association to TbPedidoEstoque
+	@OneToMany(mappedBy="tbFilial")
+	private List<TbPedidoEstoque> tbPedidoEstoques;
+
 	public TbFilial() {
 	}
 
@@ -145,6 +149,28 @@ public class TbFilial implements Serializable {
 		tbEstoque.setTbFilial(null);
 
 		return tbEstoque;
+	}
+
+	public List<TbPedidoEstoque> getTbPedidoEstoques() {
+		return this.tbPedidoEstoques;
+	}
+
+	public void setTbPedidoEstoques(List<TbPedidoEstoque> tbPedidoEstoques) {
+		this.tbPedidoEstoques = tbPedidoEstoques;
+	}
+
+	public TbPedidoEstoque addTbPedidoEstoque(TbPedidoEstoque tbPedidoEstoque) {
+		getTbPedidoEstoques().add(tbPedidoEstoque);
+		tbPedidoEstoque.setTbFilial(this);
+
+		return tbPedidoEstoque;
+	}
+
+	public TbPedidoEstoque removeTbPedidoEstoque(TbPedidoEstoque tbPedidoEstoque) {
+		getTbPedidoEstoques().remove(tbPedidoEstoque);
+		tbPedidoEstoque.setTbFilial(null);
+
+		return tbPedidoEstoque;
 	}
 
 }

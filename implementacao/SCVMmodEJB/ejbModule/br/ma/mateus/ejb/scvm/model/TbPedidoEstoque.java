@@ -54,11 +54,11 @@ public class TbPedidoEstoque implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_cliente")
 	private TbCliente tbCliente;
-
+	
 	//bi-directional many-to-one association to TbFilial
 	@ManyToOne
-	@JoinColumn(name="id_estoque")
-	private TbEstoque tbEstoque;
+	@JoinColumn(name="id_filial")
+	private TbFilial tbFilial;
 
 	//bi-directional many-to-one association to TbTipoPedidoEstoque
 	@ManyToOne
@@ -180,20 +180,6 @@ public class TbPedidoEstoque implements Serializable {
 		this.tbCliente = tbCliente;
 	}
 
-	/**
-	 * @return the tbEstoque
-	 */
-	public TbEstoque getTbEstoque() {
-		return tbEstoque;
-	}
-
-	/**
-	 * @param tbEstoque the tbEstoque to set
-	 */
-	public void setTbEstoque(TbEstoque tbEstoque) {
-		this.tbEstoque = tbEstoque;
-	}
-
 	public TbTipoPedidoEstoque getTbTipoPedidoEstoque() {
 		return this.tbTipoPedidoEstoque;
 	}
@@ -216,6 +202,14 @@ public class TbPedidoEstoque implements Serializable {
 
 	public void setTbFormaPagamento(TbFormaPagamento tbFormaPagamento) {
 		this.tbFormaPagamento = tbFormaPagamento;
+	}
+	
+	public TbFilial getTbFilial() {
+		return this.tbFilial;
+	}
+
+	public void setTbFilial(TbFilial tbFilial) {
+		this.tbFilial = tbFilial;
 	}
 	
 }

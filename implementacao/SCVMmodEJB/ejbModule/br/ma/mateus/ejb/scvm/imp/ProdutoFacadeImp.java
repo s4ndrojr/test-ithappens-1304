@@ -46,13 +46,13 @@ public class ProdutoFacadeImp implements ProdutoFacade {
 	}
 	
 	@Override
-	public Integer save(Long codigoBarrasProduto, String descricaoProduto, String usuarioInsercao, Date dataInsercao,
+	public Integer save(Long codigoBarrasProduto, String descricaoProduto, Double valorUnitario, String usuarioInsercao, Date dataInsercao,
 			String usuarioAlteracao, Date dataAlteracao, String registroExcluido, String usuarioExclusao,
 			Date dataExclusao) throws Exception {
 		// TODO Auto-generated method stub
 		TbProduto produto;
 		try {
-			produto = this.montarProduto(null, codigoBarrasProduto, descricaoProduto, usuarioInsercao, 
+			produto = this.montarProduto(null, codigoBarrasProduto, descricaoProduto, valorUnitario, usuarioInsercao, 
 					dataInsercao, usuarioAlteracao, dataAlteracao, registroExcluido, usuarioExclusao, dataExclusao);
 
 			this.tbProdutoDAO.save(produto);
@@ -66,13 +66,13 @@ public class ProdutoFacadeImp implements ProdutoFacade {
 	}
 
 	@Override
-	public void update(Integer id, Long codigoBarrasProduto, String descricaoProduto, String usuarioInsercao,
+	public void update(Integer id, Long codigoBarrasProduto, String descricaoProduto, Double valorUnitario, String usuarioInsercao,
 			Date dataInsercao, String usuarioAlteracao, Date dataAlteracao, String registroExcluido,
 			String usuarioExclusao, Date dataExclusao) throws Exception {
 		// TODO Auto-generated method stub
 		TbProduto produto;
 		try {
-			produto = this.montarProduto(id, codigoBarrasProduto, descricaoProduto, usuarioInsercao, 
+			produto = this.montarProduto(id, codigoBarrasProduto, descricaoProduto, valorUnitario, usuarioInsercao, 
 						dataInsercao, usuarioAlteracao, dataAlteracao, registroExcluido, usuarioExclusao, dataExclusao);
 			
 			this.tbProdutoDAO.update(produto);
@@ -98,7 +98,8 @@ public class ProdutoFacadeImp implements ProdutoFacade {
 		return has;
 	}
 	
-	private TbProduto montarProduto(Integer id, Long codigoBarrasProduto, String descricaoProduto, String usuarioInsercao,
+	private TbProduto montarProduto(Integer id, Long codigoBarrasProduto, String descricaoProduto,
+			Double valorUnitario, String usuarioInsercao,
 			Date dataInsercao, String usuarioAlteracao, Date dataAlteracao, String registroExcluido,
 			String usuarioExclusao, Date dataExclusao) {
 		
@@ -106,6 +107,7 @@ public class ProdutoFacadeImp implements ProdutoFacade {
 		produto.setIdProduto(id);
 		produto.setCodigoBarrasProduto(codigoBarrasProduto);
 		produto.setDescricaoProduto(descricaoProduto);
+		produto.setValorUnitarioProduto(valorUnitario);
 		produto.setUsuarioInsercao(usuarioInsercao);
 		produto.setDataInsercao(dataInsercao);
 		produto.setUsuarioAlteracao(usuarioAlteracao);

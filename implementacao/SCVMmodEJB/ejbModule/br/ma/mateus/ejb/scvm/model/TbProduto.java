@@ -64,6 +64,9 @@ public class TbProduto implements Serializable {
 
 	@Column(name="usuario_insercao")
 	private String usuarioInsercao;
+	
+	@Column(name="valor_unitario_produto")
+	private double valorUnitarioProduto;
 
 	//bi-directional many-to-one association to TbEstoque
 	@OneToMany(mappedBy="tbProduto" )
@@ -198,6 +201,14 @@ public class TbProduto implements Serializable {
 		tbItensPedido.setTbProduto(null);
 
 		return tbItensPedido;
+	}
+	
+	public double getValorUnitarioProduto() {
+		return this.valorUnitarioProduto;
+	}
+
+	public void setValorUnitarioProduto(double valorUnitarioProduto) {
+		this.valorUnitarioProduto = valorUnitarioProduto;
 	}
 
 }

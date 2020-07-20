@@ -40,7 +40,7 @@ public class ProdutoMB implements Serializable{
 	private Date dataInsercao, dataAlteracao, dataExclusao;
 	private Integer id;
 	private Long codigoBarrasProduto, codBarraProdutoFiltro;
-	
+	private Double valorUnitario;
 	private List<TbProduto> listProduto;
 	
 	public ProdutoMB(){
@@ -131,15 +131,15 @@ public class ProdutoMB implements Serializable{
 		
 		switch (acao) {
 			case ConstantesSistema.ACAO_INSERIR:
-				this.inserirProduto(codigoBarrasProduto, descricaoProduto, usuarioAcao, new Date(), "", null, ConstantesSistema.REGISTRO_NAO_EXCLUIDO, "", null);
+				this.inserirProduto(codigoBarrasProduto, descricaoProduto, valorUnitario, usuarioAcao, new Date(), "", null, ConstantesSistema.REGISTRO_NAO_EXCLUIDO, "", null);
 				break;
 			
 			case ConstantesSistema.ACAO_EDITAR:
-				this.atualizarProduto(id, codigoBarrasProduto, descricaoProduto, usuarioInsercao, dataInsercao, usuarioAcao, new Date(), ConstantesSistema.REGISTRO_NAO_EXCLUIDO, usuarioExclusao, dataExclusao);
+				this.atualizarProduto(id, codigoBarrasProduto, descricaoProduto, valorUnitario, usuarioInsercao, dataInsercao, usuarioAcao, new Date(), ConstantesSistema.REGISTRO_NAO_EXCLUIDO, usuarioExclusao, dataExclusao);
 				break;
 				
 			case ConstantesSistema.ACAO_EXCLUIR:
-				this.excluirProduto(id, codigoBarrasProduto, descricaoProduto, usuarioInsercao, dataInsercao, usuarioAlteracao, dataAlteracao, ConstantesSistema.REGISTRO_EXCLUIDO, usuarioAcao, new Date());
+				this.excluirProduto(id, codigoBarrasProduto, descricaoProduto, valorUnitario, usuarioInsercao, dataInsercao, usuarioAlteracao, dataAlteracao, ConstantesSistema.REGISTRO_EXCLUIDO, usuarioAcao, new Date());
 				break;
 		}
 		
@@ -162,12 +162,12 @@ public class ProdutoMB implements Serializable{
 	 * @param usuarioExclusao
 	 * @param dataExclusao
 	 */
-	private Integer inserirProduto(Long codigoBarrasProduto, String descricaoProduto, String usuarioInsercao,
+	private Integer inserirProduto(Long codigoBarrasProduto, String descricaoProduto, Double valorUnitario, String usuarioInsercao,
 			Date dataInsercao, String usuarioAlteracao, Date dataAlteracao, String registroExcluido,
 			String usuarioExclusao, Date dataExclusao) {
 		Integer idProdutoSalvo = null;
 		try {
-			idProdutoSalvo = produtoFacade.save(codigoBarrasProduto, descricaoProduto, usuarioInsercao, dataInsercao, usuarioAlteracao,
+			idProdutoSalvo = produtoFacade.save(codigoBarrasProduto, descricaoProduto, valorUnitario, usuarioInsercao, dataInsercao, usuarioAlteracao,
 					dataAlteracao, registroExcluido, usuarioExclusao, dataExclusao);
 			
 			if(idProdutoSalvo != null) MessageUtil.sucess("Inserção de Produto", "O produto com identificação "+idProdutoSalvo+" foi criado com sucesso no sistema!");
@@ -194,7 +194,7 @@ public class ProdutoMB implements Serializable{
 	 * @return
 	 */
 	private boolean excluirProduto(Integer id, Long codigoBarrasProduto, 
-			  String descricaoProduto, String usuarioInsercao, 
+			  String descricaoProduto, Double valorUnitario, String usuarioInsercao, 
 			  Date dataInsercao, String usuarioAlteracao, 
 			  Date dataAlteracao, String registroExcluido,
           String usuarioExclusao, Date dataExclusao) {
@@ -204,7 +204,7 @@ public class ProdutoMB implements Serializable{
 			hasEstoqueOrItensPedido = produtoFacade.hasEstoqueOrItensPedido(id);
 			
 			if(!hasEstoqueOrItensPedido) {
-				produtoFacade.update(id, codigoBarrasProduto, descricaoProduto, usuarioInsercao, dataInsercao, usuarioAlteracao, dataAlteracao, registroExcluido, usuarioExclusao, dataExclusao);
+				produtoFacade.update(id, codigoBarrasProduto, descricaoProduto, valorUnitario, usuarioInsercao, dataInsercao, usuarioAlteracao, dataAlteracao, registroExcluido, usuarioExclusao, dataExclusao);
 				MessageUtil.sucess("Exclusão de Produto", "O usuário foi excluído com sucesso no sistema!");
 				return true;
 			}
@@ -236,13 +236,13 @@ public class ProdutoMB implements Serializable{
 	 * @return
 	 */
 	private boolean atualizarProduto(Integer id, Long codigoBarrasProduto, 
-			  String descricaoProduto, String usuarioInsercao, 
+			  String descricaoProduto, Double valorUnitario, String usuarioInsercao, 
 			  Date dataInsercao, String usuarioAlteracao, 
 			  Date dataAlteracao, String registroExcluido,
             String usuarioExclusao, Date dataExclusao) {
 		
 		try {
-			produtoFacade.update(id, codigoBarrasProduto, descricaoProduto, usuarioInsercao, dataInsercao, usuarioAlteracao,
+			produtoFacade.update(id, codigoBarrasProduto, descricaoProduto, valorUnitario, usuarioInsercao, dataInsercao, usuarioAlteracao,
 					dataAlteracao, registroExcluido, usuarioExclusao, dataExclusao);
 			MessageUtil.sucess("Edição de Produto", "O usuário foi alterado com sucesso!");
 			return true;
@@ -478,4 +478,18 @@ public class ProdutoMB implements Serializable{
 		this.descricaoProduto = descricaoProduto;
 	}
 
+	/**
+	 * @return the valorUnitario
+	 */
+	public Double getValorUnitario() {
+		return valorUnitario;
+	}
+
+	/**
+	 * @param valorUnitario the valorUnitario to set
+	 */
+	public void setValorUnitario(Double valorUnitario) {
+		this.valorUnitario = valorUnitario;
+	}
+	
 }
