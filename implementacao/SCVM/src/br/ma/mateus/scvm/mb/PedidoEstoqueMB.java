@@ -187,7 +187,7 @@ public class PedidoEstoqueMB implements Serializable {
 		itens.setRegistroExcluido(ConstantesSistema.REGISTRO_NAO_EXCLUIDO);
 	}
 	
-	public boolean isItemRemovida(TbItensPedido itens) {
+	public boolean isItemRemovido(TbItensPedido itens) {
 		if(itens.getRegistroExcluido().equals(ConstantesSistema.REGISTRO_EXCLUIDO)) {
 			return true;
 		}
@@ -201,7 +201,7 @@ public class PedidoEstoqueMB implements Serializable {
 	 * @author Sandro Jr.
 	 * @return String
 	 */
-	public String executarAcaoPedidoEstoque() {
+	public String executarAcaoPedido() {
 //		String pedidoEstoqueAcao = loginMB.getPedidoEstoque();
 		if (!validarCampos()) {
 			return null;

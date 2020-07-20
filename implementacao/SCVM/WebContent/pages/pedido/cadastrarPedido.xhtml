@@ -9,7 +9,7 @@
 <h:body>
 	<ui:composition template="/pages/template/layout.xhtml">
 		<ui:define name="content">
-		<ui:include src="/pages/gestao/pedido/dialogPedido.xhtml" />
+		<ui:include src="/pages/pedido/dialogPedido.xhtml" />
 			<h:form id="form">
 				<ui:include src="/pages/template/dialog.xhtml" />
 				<p:growl id="msgs" showDetail="true"/>
@@ -33,7 +33,7 @@
 		            			<h:outputLabel value="Nome do Usuário: *" for="nomeUsuario"/>
 		            		</p:outputPanel>
 		            		<p:outputPanel class="ui-g-11 ui-md-11 ui-lg-9">
-		            			<p:inputText id="nomeUsuario" value="#{mPedido.usuarioLogado}"/>
+		            			<p:inputText id="nomeUsuario" value="#{mPedido.usuarioLogado.nomeUsuario}"/>
 		            		</p:outputPanel>
 	            		</p:outputPanel>
 	            		<p:outputPanel class="form ui-g-12 ui-md-12 ui-lg-12">
@@ -41,8 +41,8 @@
 		            			<h:outputLabel value="Filial: *" for="descFilial"/>
 		            		</p:outputPanel>
 		            		<p:outputPanel class="ui-g-11 ui-md-11 ui-lg-9">
-		            			<p:inputText id="descFilial" value="#{mPedido.pedido.tbFilial.nomeFilial}"/>
-		            			<p:commandButton process="@this" update=":formDialog"
+		            			<p:inputText id="descFilial" value="#{mPedido.pedido.tbEstoque.tbFilial.nomeFilial}"/>
+		            			<p:commandButton process="@this" update=":formDialogFilial"
 		            							 value="Buscar Filial" 
 		            							 oncomplete="PF('buscaFilialDialog').show()"
 												 icon="pi pi-save" style="float:right"/>
@@ -74,9 +74,6 @@
 		            		</p:outputPanel>
 		            		<p:outputPanel class="ui-g-11 ui-md-11 ui-lg-9">
 		            			<p:inputText id="descItem" value="#{mPedido.pedido.tbCliente.nomeCliente}"/>
-		            			<p:commandButton process="@this" update=":formDialog" actionListener="#{mPedido.addItem()}"
-		            							 value="Adicionar Item"  
-												 icon="pi pi-save" style="float:right"/>
 								<p:commandButton process="@this" update=":formDialog"
 						            			 value="Adicionar Item" 
 						            			 oncomplete="PF('buscaItemDialog').show()"
@@ -92,25 +89,21 @@
 							    }
 							</style>
 	            			<p:dataTable value="#{mPedido.listItensPedido}" rowStyleClass="#{mPedido.isItemRemovido(item) ? 'red' : null}"
-										 id="dataTableFuncionalidade" var="item" rowKey="#{item.identificacaoitemAplicacao}"
+										 id="dataTableFuncionalidade" var="item" rowKey="#{item.idItensPedido}"
 										 styleClass="comBorda" rows="15" paginator="true" paginatorPosition="bottom" 
 										 emptyMessage="Nenhum resultado para a pesquisa!"
 		                         		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 								
-								<p:column headerText="Modulo">
-									<h:outputText value="#{item.tbAplicacaoModulo.tbModuloSistema.abreviacaoModulo}"/>
+								<p:column headerText="Produto">
+									<h:outputText value="#{item.tbProduto.descricaoProduto}"/>
 								</p:column>
 								
-								<p:column headerText="Caso de Uso">
-									<h:outputText value="#{item.casoUso}"/>
+								<p:column headerText="Quantidade">
+									<h:outputText value="#{item.quantidadeItensPedido}"/>
 								</p:column>
 								
-								<p:column headerText="Aplicação">
-									<h:outputText value="#{item.tbAplicacaoModulo.descricaoAplicacaoModulo}"/>
-								</p:column>
-								
-								<p:column headerText="Opção">
-									<h:outputText value="#{item.descricaoitem}"/>
+								<p:column headerText="Valor Unitário">
+									<h:outputText value="#{item.tbPedidoEstoque.tbEstoque.valorUnitarioProduto}"/>
 								</p:column>
 								
 								<p:column headerText="Ações" style="width:10%; text-align: center;">
